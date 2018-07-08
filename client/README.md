@@ -1,0 +1,1 @@
+Single-page React application showcasing New York Time articles (searchable by date).
