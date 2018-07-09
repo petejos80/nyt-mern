@@ -9,27 +9,28 @@ import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 
 class Articles extends Component {
-  // Setting our component's initial state
   state = {
-    articles: [],
-    title: "",
-    author: "",
-    synopsis: ""
-  };
-
-  // When the component mounts, load all articles and save them to this.state.articles
-  componentDidMount() {
-    this.loadArticles();
+    topic: "",
+    startYear: "",
+    endYear: "",
+    results: []
   }
 
   // Loads all articles  and sets them to this.state.articles
   loadArticles = () => {
     API.getArticles()
       .then(res =>
-        this.setState({ articles: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ articles: res.data, topic: "", startYear: "", endYear: "" })
       )
       .catch(err => console.log(err));
   };
+
+  saveArticle = idToSave => {
+    const { id, ...articleData } = this.state.results.filter(article => article.id === idToSave)[0];
+    API.saveArticle(articleData)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }
 
   // Deletes a articles from the database with a given id, then reloads articles from the db
   deleteArticle = id => {
