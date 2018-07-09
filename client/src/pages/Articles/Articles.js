@@ -6,33 +6,33 @@ import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 
-class Books extends Component {
+class Articles extends Component {
   // Setting our component's initial state
   state = {
-    books: [],
+    articles: [],
     title: "",
     author: "",
     synopsis: ""
   };
 
-  // When the component mounts, load all books and save them to this.state.books
+  // When the component mounts, load all articles and save them to this.state.articles
   componentDidMount() {
-    this.loadBooks();
+    this.loadArticles();
   }
 
-  // Loads all books  and sets them to this.state.books
-  loadBooks = () => {
-    API.getBooks()
+  // Loads all articles  and sets them to this.state.articles
+  loadArticles = () => {
+    API.getArticles()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ articles: res.data, title: "", author: "", synopsis: "" })
       )
       .catch(err => console.log(err));
   };
 
-  // Deletes a book from the database with a given id, then reloads books from the db
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
+  // Deletes a articles from the database with a given id, then reloads articles from the db
+  deleteArticle = id => {
+    API.deleteArticle(id)
+      .then(res => this.loadArticles())
       .catch(err => console.log(err));
   };
 
@@ -44,17 +44,17 @@ class Books extends Component {
     });
   };
 
-  // When the form is submitted, use the API.saveBook method to save the book data
-  // Then reload books from the database
+  // When the form is submitted, use the API.saveArticle method to save the article data
+  // Then reload articles from the database
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.title && this.state.author) {
-      API.saveBook({
+      API.saveArticle({
         title: this.state.title,
         author: this.state.author,
         synopsis: this.state.synopsis
       })
-        .then(res => this.loadBooks())
+        .then(res => this.loadArticles())
         .catch(err => console.log(err));
     }
   };
@@ -65,7 +65,7 @@ class Books extends Component {
         <Row>
           <Col size="md-6">
             <Jumbotron>
-              <h1>What Books Should I Read?</h1>
+              <h1>What Articles Should I Read?</h1>
             </Jumbotron>
             <form>
               <Input
@@ -90,25 +90,25 @@ class Books extends Component {
                 disabled={!(this.state.author && this.state.title)}
                 onClick={this.handleFormSubmit}
               >
-                Submit Book
+                Submit Article
               </FormBtn>
             </form>
           </Col>
           <Col size="md-6 sm-12">
             <Jumbotron>
-              <h1>Books On My List</h1>
+              <h1>Articles On My List</h1>
             </Jumbotron>
-            {this.state.books.length ? (
+            {this.state.articles.length ? (
               <List>
-                {this.state.books.map(book => {
+                {this.state.articles.map(article => {
                   return (
-                    <ListItem key={book._id}>
-                      <a href={"/books/" + book._id}>
+                    <ListItem key={article._id}>
+                      <a href={"/articles/" + article._id}>
                         <strong>
-                          {book.title} by {book.author}
+                          {article.title} by {article.author}
                         </strong>
                       </a>
-                      <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                      <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
                     </ListItem>
                   );
                 })}
@@ -123,4 +123,4 @@ class Books extends Component {
   }
 }
 
-export default Books;
+export default Articles;
