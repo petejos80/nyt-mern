@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
+import Panel from "../../components/Panel";
 import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
 import NYT from "../../utils/NYT"
